@@ -19,7 +19,7 @@ env:
   GO_VERSION_FILE: ""
   RUST_TOOLCHAIN: ""
   SUBMODULES: "recursive"
-  BUILD_CMD: "sudo apt-get install -y libsecret-1-dev && corepack enable && SKIP_ONENOTE_CONVERTER_BUILD=1 yarn install && cd packages/app-mobile/android && sed -i -- 's/signingConfig signingConfigs.release/signingConfig signingConfigs.debug/' app/build.gradle && chmod +x gradlew && ./gradlew --no-daemon assembleRelease"
+  BUILD_CMD: "sudo apt-get update -qq && sudo apt-get install -y libsecret-1-dev && corepack enable && SKIP_ONENOTE_CONVERTER_BUILD=1 yarn install && cd packages/app-mobile/android && sed -i -- 's/signingConfig signingConfigs.release/signingConfig signingConfigs.debug/' app/build.gradle && chmod +x gradlew && ./gradlew --no-daemon assembleRelease"
   ARTIFACT_GLOB: "packages/app-mobile/android/app/build/outputs/apk/release/*.apk"
 
 jobs:
