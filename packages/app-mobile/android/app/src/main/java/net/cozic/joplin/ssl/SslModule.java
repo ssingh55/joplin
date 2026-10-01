@@ -11,8 +11,7 @@ import com.facebook.react.modules.network.NetworkingModule;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static net.cozic.joplin.ssl.SslUtils.TRUST_ALL_CERTS;
-import static net.cozic.joplin.ssl.SslUtils.getTrustySocketFactory;
+
 
 public class SslModule extends ReactContextBaseJavaModule {
 
@@ -29,15 +28,8 @@ public class SslModule extends ReactContextBaseJavaModule {
         Log.d("JOPLIN", "Set ignore TLS errors: " + isIgnoreTlsErrors);
         try {
             boolean prev = current.getAndSet(isIgnoreTlsErrors);
-            if (isIgnoreTlsErrors) {
-                NetworkingModule.setCustomClientBuilder(
-                        builder -> {
-                            builder.sslSocketFactory(getTrustySocketFactory(), TRUST_ALL_CERTS);
-                            builder.hostnameVerifier((hostname, session) -> true);
-                        });
-            } else {
-                NetworkingModule.setCustomClientBuilder(null);
-            }
+            // Always use secure TLS configuration (platform defaults)
+            NetworkingModule.setCustomClientBuilder(null);
             promise.resolve(prev);
         } catch (Exception e) {
             Log.e("JOPLIN", "Error disabling TLS validation", e);
